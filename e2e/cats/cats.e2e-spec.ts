@@ -28,6 +28,16 @@ describe('Cats', () => {
     });
   });
 
+  it(`/GET cats with modern timers ON`, async () => {
+    jest.useFakeTimers('modern');
+
+    await request(app.getHttpServer()).get('/cats').expect(200).expect({
+      data: catsService.findAll(),
+    });
+
+    jest.useRealTimers();
+  });
+
   afterAll(async () => {
     await app.close();
   });
